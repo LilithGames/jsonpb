@@ -14,12 +14,11 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/golang/protobuf/proto"
-	"github.com/golang/protobuf/ptypes"
-
 	pb2 "github.com/LilithGames/jsonpb/testprotos/jsonpb_proto"
 	pb3 "github.com/LilithGames/jsonpb/testprotos/proto3_proto"
+	"github.com/golang/protobuf/proto"
 	descpb "github.com/golang/protobuf/protoc-gen-go/descriptor"
+	"github.com/golang/protobuf/ptypes"
 	anypb "github.com/golang/protobuf/ptypes/any"
 	durpb "github.com/golang/protobuf/ptypes/duration"
 	stpb "github.com/golang/protobuf/ptypes/struct"
@@ -92,6 +91,28 @@ var (
 		`"oSint32Str":-13,` +
 		`"oSint64":"-2600000000",` +
 		`"oSint64Str":"-2600000000",` +
+		`"oFloat":3.14,` +
+		`"oFloatStr":3.14,` +
+		`"oDouble":6.02214179e+23,` +
+		`"oDoubleStr":6.02214179e+23,` +
+		`"oString":"hello \"there\"",` +
+		`"oBytes":"YmVlcCBib29w"` +
+		`}`
+
+	origin64ObjectOutputJSON = `{` +
+		`"oBool":true,` +
+		`"oInt32":-32,` +
+		`"oInt32Str":-32,` +
+		`"oInt64":-6400000000,` +
+		`"oInt64Str":-6400000000,` +
+		`"oUint32":32,` +
+		`"oUint32Str":32,` +
+		`"oUint64":6400000000,` +
+		`"oUint64Str":6400000000,` +
+		`"oSint32":-13,` +
+		`"oSint32Str":-13,` +
+		`"oSint64":-2600000000,` +
+		`"oSint64Str":-2600000000,` +
 		`"oFloat":3.14,` +
 		`"oFloatStr":3.14,` +
 		`"oDouble":6.02214179e+23,` +
@@ -387,6 +408,7 @@ var marshalingTests = []struct {
 	json      string
 }{
 	{"simple flat object", marshaler, simpleObject, simpleObjectOutputJSON},
+	{"origin 64 flat object", Marshaler{Origin64Num: true}, simpleObject, origin64ObjectOutputJSON},
 	{"simple pretty object", marshalerAllOptions, simpleObject, simpleObjectOutputPrettyJSON},
 	{"non-finite floats fields object", marshaler, nonFinites, nonFinitesJSON},
 	{"repeated fields flat object", marshaler, repeatsObject, repeatsObjectJSON},
